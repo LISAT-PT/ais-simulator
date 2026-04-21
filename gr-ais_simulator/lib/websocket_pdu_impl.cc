@@ -314,9 +314,16 @@ namespace gr
             }
             else
             {
-                tcp::tcp::resolver resolver(d_ioc);
-                tcp::tcp::resolver::query query(tcp::v4(), addr, port, net::ip::resolver_query_base::passive);
-                tcp_ep = *resolver.resolve(query);
+                // tcp::tcp::resolver resolver(d_ioc);
+                // tcp::tcp::resolver::query query(tcp::v4(), addr, port, net::ip::resolver_query_base::passive);
+                // tcp_ep = *resolver.resolve(query);
+                    tcp::resolver resolver(d_ioc);
+                tcp_ep = *resolver.resolve(
+                    tcp::v4(),          // Protocol
+                    addr,               // Address
+                    port,               // Port
+                    boost::asio::ip::resolver_base::passive // Passive mode flag
+                ).begin();  // Use `.begin()` to get the first result
             }
 
             // Create and launch a listening port
